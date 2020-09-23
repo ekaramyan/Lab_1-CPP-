@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 double processArray(double array[15], const int n, int a1, int d);
 char* strncat(char* dest, const char* src, size_t maxlen);
 
@@ -15,85 +17,56 @@ int main()
 		//    taskTwo();
 		//    taskThree();
 		return 0;
-	}
-
 #pragma region Task One
-	/*Объявить массив из n=15 целых чисел, проинициализируйте нулями. Функция
-	processArray() должна заполнить массив членами арифметической прогрессии с
-	начальным элементом a1 и шагом d (ввести с клавиатуры), подсчитать и вернуть cnt –
-	количество всех двузначных элементов массива, а также сформировать выходной
-	массив, который содержит все элементы исходного, кроме тех, сумма цифр которых
-	равна 10. Вывести на экран массивы.*/
+/*Объявить массив из n=20 целых чисел, проинициализировать нулями. Функция
+process_array() должна заполнить массив случайными числами от 1 до 10, вычислить
+и вернуть наиболее часто встречающееся значение в массиве (если таких несколько,
+вернуть наименьшее) и сформировать выходной массив из всех элементов, которые
+встречаются как минимум 2 раза во входном массиве. Вывести на экран массивы.*/
 
-double taskOne() {
-	const int n = 15;
-	double a[n] = { 0.0 };
-	srand(0);
-	int a1, d;
-	printf("a1: ");
-	scanf("%d", &a1);
-	printf("d: ");
-	scanf("%d", &d);
-	double result = processArray(a, n, a1, d);
-	return result;
-}
-double processArray(double array[], int n, int a1, int d) {
-	int cnt = 0;
-	--n;
-	int smallerArrayLength = 0;
-	printf("first array:\n");
-	for (int i = 0; i <= n; ++i) {
-		array[i] = a1 + d * i;
-		printf("%g ", array[i]);
-		if (array[i] > 9 && array[i] < 100)
-			++cnt;
-		int num = (fmod(array[i], 10) + array[i] / 10);
-		if (num != 10)
-			++smallerArrayLength;
-	}
-	printf("\ncnt: %i\n", cnt);
-	printf("second array:\n");
-	int smallerArray[SmallerArrayLength];
-	for (int i = 0, j = 0; i <= n; ++i) {
-		int num = (fmod(array[i], 10) + array[i] / 10);
-		if (num != 10) {
-			smallerArray[j] = array[i];
-			printf("%i ", smallerArray[j]);
-			++j;
-		}
-	}
-	printf("\n%s\n", "end");
-}
-#pragma endregion
-#pragma region Task Two
-/*Преобразование: 2D → 1D. Двумерный массив 4х4 вещественных чисел необходимо
-        выложить в один ряд по элементам слева направо и снизу вверх.
-Инициализация: заполнить массив числами x[i][j] = √(i + j + 1).
-Вывод на экран: каждый элемент одномерного массива вывести с точностью четыре
-знака после запятой; каждый элемент двумерного массива – с точностью два знака.*/
-const int arr_size = 4;
-double arrayOfDouble[arr_size][arr_size];
-double taskTwo() {
-	printf("[");
-	for (int i = 0; i < arr_size; i++) {
-		for (int j = 0; j < arr_size; j++) {
-			arrayOfDouble[i][j] = sqrt(i + j + 1);
-			printf(" %.3g", arrayOfDouble[i][j]);
-		}
-		if (i != arr_size - 1)
-			printf("\n");
-	}
-	printf(" ]");
-	printf("\n=>");
-	printf("\n[");
-	for (int i = arr_size - 1; i >= 0; i--) {
-		for (int j = 0; j < arr_size; j++) {
-			printf(" %.5g", arrayOfDouble[i][j]);
-		}
-	}
-	printf("]");
-	return 0;
+// размер массива равен 20 (по заданию)
+const size_t N = 20;
+double a[N] = { 0.0 }; // создаем массив и инициализируем нулями
+bool b[N] = { false }; // булев массив - "false-ми"
+// инициализация генератора случайных чисел
+srand(0);
+// подсчет среднего значения в массиве а, изменение массива b
+double result = processArray(a, N, b);
+// вывод массивов на экран
+printArray(a, N);
+printBoolArray(b, N);
+// ...и среднего значения элементов массива а
+printf("Average: %g\n\n", result);
+return 0;
 }
 
+/*В функции processArray() заполняем массив случайными числами, считаем среднее и
+формируем массив flags булевых значений.Обратите внимание на сигнатуру : запись
+double arr[] эквивалентна записи double* arr(т.е.передаче параметра по указателю).*/
 
-#pragma endregion
+double processArray(double arr[], size_t n, bool flags[])
+{
+	for (size_t i = 0; i < n; ++i) // заполнение массива случ. числами [-15.0..15.0]
+	{
+		arr[i] = (double)(rand() % 30) - 15.0;
+	}
+	double average = 0.0;
+	for (size_t i = 0; i < n; ++i) // подсчет среднего значения элементов
+	{
+		average += arr[i];
+	} average /= n;
+	for (size_t i = 0; i < n; ++i) // формирование булевого массива (по заданию)
+	{
+		flags[i] = arr[i] > average;
+	}
+	return average; // возвращаем среднее
+}
+//Пример функции вывода на экран всех значений булевого массива :
+void printBoolArray(bool* arr, size_t n)
+{
+	for (size_t i = 0; i < n; ++i)
+	{
+		(arr[i]) ? printf("T ") : printf("F ");
+	}
+	printf("\n");
+}
