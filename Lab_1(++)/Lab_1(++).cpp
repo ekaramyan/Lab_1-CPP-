@@ -1,109 +1,77 @@
 ﻿#include <iostream>
-#include <cmath>
-#include <cstdlib>
 #include <cstdio>
-#include <ctime>
-#include <map>
-double processArray(double array[20], const int n, int a1, int d);
-char* strncat(char* dest, const char* src, size_t maxlen);
-
-double taskOne();
-double taskTwo();
-double taskThree();
-
 using namespace std;
-//4ВАРИАНТ
+void printArray(double* arr, size_t size)//Функция вывода массива 
+{
+	for (int i = 0; i < size; i++) {
+		printf("%.2f\t", arr[i]);
+	}
+	cout << " " << endl << endl;
+}
+/*
+Объявить массив из n=20 целых чисел, проинициализировать нулями. Функция
+process_array() должна заполнить массив случайными числами от 1 до 10, вычислить
+и вернуть наиболее часто встречающееся значение в массиве (если таких несколько,
+вернуть наименьшее) и сформировать выходной массив из всех элементов, которые
+встречаются как минимум 2 раза во входном массиве. Вывести на экран массивы.
+*/
+const size_t N = 20;//Задаем размер массива
+
+double processArray(double a[], double b[], size_t n) {
+	for (size_t i = 0; i < n; ++i) {//Заполнение массива случайными числами от 1 до 10.0
+		a[i] = (double)(rand() % 90) + 1;
+	}
+
+	printArray(a, N);//Выводим девственный массив a
+
+	//Находим максимальное по модулю число
+	double max = 0;
+	size_t pos = 0;
+	for (size_t i = 0; i < n; ++i)
+	{
+		if (abs(a[i]) > max)
+		{
+			max = a[i];
+			pos = i;
+		}
+	}
+	int maxcount(1), nn(-1);
+	//перебираем все элементы массива
+	for (int i = 0; i < N; i++)
+	{
+		int count(0);
+		//перебираем все элементы от i до конца
+		for (int j = i; j < N; j++)
+			//если элемент i совпадает с одним из последующих (j), то увеличиваем число
+			if (a[i] == a[j])
+				count++;
+
+		//если число больше ранее сохраненного - перезаписываем
+		if (maxcount < count)
+		{
+			maxcount = count;
+			nn = i;
+		}
+	}
+
+	//выводим
+	if (nn > -1)
+		//значение
+		cout << endl << a[nn] << endl;
+	else
+		//или то, что повторяющихся элементов нет
+		cout << endl << "No repeating elements" << endl;
+
+
+	system("pause");
+	return 0;
+}
+
 int main()
 {
-	//    taskOne();
-	//    taskTwo();
-	//    taskThree();
-	return 0;
-#pragma region Task One
-	/*Объявить массив из n=20 целых чисел, проинициализировать нулями. Функция
-	process_array() должна заполнить массив случайными числами от 1 до 10, вычислить
-	и вернуть наиболее часто встречающееся значение в массиве (если таких несколько,
-	вернуть наименьшее) и сформировать выходной массив из всех элементов, которые
-	встречаются как минимум 2 раза во входном массиве. Вывести на экран массивы.*/
-	const size_t N = 20;
-	double a[N] = { 0.0 }; // создаем массив и инициализируем нулями
-	bool b[N] = { false }; // булев массив - "false-ми"
-	// инициализация генератора случайных чисел
-	srand(0);
-	// подсчет среднего значения в массиве а, изменение массива b
-	double result = processArray(a, N, b);
-	// вывод массивов на экран
-	printArray(a, N);
-	printBoolArray(b, N);
-	// ...и среднего значения элементов массива а
-	printf("Average: %g\n\n", result);
-	return 0;
-}
-/* В функции processArray() заполняем массив случайными числами, считаем среднее и
-формируем массив flags булевых значений.Обратите внимание на сигнатуру : запись
-double arr[] эквивалентна записи double* arr(т.е.передаче параметра по указателю).*/
-double processArray(double arr[], size_t n, bool flags[])
-{
-	for (size_t i = 0; i < n; ++i) // заполнение массива случ. числами [-15.0..15.0]
-	{
-		arr[i] = (double)(rand() % 30) - 15.0;
-	}
-	double average = 0.0;
-	for (size_t i = 0; i < n; ++i) // подсчет среднего значения элементов
-	{
-		average += arr[i];
-	} average /= n;
-	for (size_t i = 0; i < n; ++i) // формирование булевого массива (по заданию)
-	{
-		flags[i] = arr[i] > average;
-	}
-	return average; // возвращаем среднее
-}
-//Пример функции вывода на экран всех значений булевого массива :
-void printBoolArray(bool* arr, size_t n)
-{
-	for (size_t i = 0; i < n; ++i)
-	{
-		(arr[i]) ? printf("T ") : printf("F ");
-	}
-	printf("\n");
-}
-void prinArray(int* arr, size_t n)
-{
-	for (size_t i = 0; i < n; ++i)
-	{
-		(arr[i]) ? printf("T ") : printf("F ");
-	}
-	printf("\n");
-}
+	double a[N] = { 0.0 };//Создаем входной массив из N элементов
+	double b[N] = { 0.0 };//Создаем выходной массив из N элементов
+	srand(0);//Инициализируем рандомайзер 
 
-	/*В функции processArray() заполняем массив случайными числами, считаем среднее и
-	формируем массив flags булевых значений.Обратите внимание на сигнатуру : запись
-	double arr[] эквивалентна записи double* arr(т.е.передаче параметра по указателю).*/
-
-	double processArray(double arr[], size_t n, bool flags[])
-	{
-		for (size_t i = 0; i < n; ++i) // заполнение массива случ. числами [-15.0..15.0]
-		{
-			arr[i] = (double)(rand() % 30) - 15.0;
-		}
-		double average = 0.0;
-		for (size_t i = 0; i < n; ++i) // подсчет среднего значения элементов
-		{
-			average += arr[i];
-		} average /= n;
-		for (size_t i = 0; i < n; ++i) // формирование булевого массива (по заданию)
-		{
-			flags[i] = arr[i] > average;
-		}
-		return average; // возвращаем среднее
-	}
-	//Пример функции вывода на экран всех значений булевого массива :
-	void printBoolArray(bool* arr, size_t n)
-	{
-		for (size_t i = 0; i < n; ++i)
-		{
-			(arr[i]) ? printf("T ") : printf("F ");
-		}
-		printf("\n");
-	}
+	processArray(a, b, N);
+}
