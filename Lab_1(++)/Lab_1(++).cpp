@@ -19,7 +19,7 @@ const size_t N = 20;//Задаем размер массива
 
 double processArray(double a[], double b[], size_t n) {
 	for (size_t i = 0; i < n; ++i) {//Заполнение массива случайными числами от 1 до 10.0
-		a[i] = (double)(rand() % 90) + 1;
+		a[i] = (double)(rand() % 10) + 1;
 	}
 
 	printArray(a, N);//Выводим девственный массив a
@@ -62,8 +62,6 @@ double processArray(double a[], double b[], size_t n) {
 		//или то, что повторяющихся элементов нет
 		cout << endl << "No repeating elements" << endl;
 
-
-	system("pause");
 	return 0;
 }
 
