@@ -11,6 +11,12 @@
 #include <iomanip>
 #include<Math.h>
 
+
+#ifdef _DEBUG
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
+#endif
+
 using namespace std;
 int main(int argc, char* argv[])
 {
@@ -21,7 +27,7 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < n; i++)
 		array[i] = new double[m];
 	cout << "Array:\n";
-	for (int i = 0; i < n; i++)
+	for (int i = m - 1; i >= 0; i--)
 	{
 		for (int j = 0; j < m; j++)
 		{
@@ -32,7 +38,7 @@ int main(int argc, char* argv[])
 	}
 
 	// переводим его в одномерный
-	double* arr_1d = new double[n * m];
+	double * arr_1d = new double[n * m];
 	int k = 0;
 	cout << endl << "1D Array: ";
 	for (int i = 0; i < n; i++)
@@ -43,6 +49,7 @@ int main(int argc, char* argv[])
 			cout << arr_1d[k] << " ";
 			k++;
 		}
+		//delete[] array[i];
 	}
 	return 0;
 }
