@@ -27,15 +27,15 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < n; i++)
 		array[i] = new double[m];
 	cout << "Array:\n";
-	for (int i = m - 1; i >= 0; i--)
+	for (int i = n - 1; i >= 0; i--)
 	{
 		for (int j = 0; j < m; j++)
 		{
 			array[i][j] = (sin(i - j) + cos(i + j));
+			//array[i][j] = 0;
 			cout << setw(4) << array[i][j];
 		}
 		cout << endl;
-		delete[] array[i];
 	}
 
 	// переводим его в одномерный
@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
 			cout << arr_1d[k] << " ";
 			k++;
 		}
+		delete[] array[i];
 	}
 	delete[] arr_1d;
 	return 0;
