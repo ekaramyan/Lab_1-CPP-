@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
 		}
 		delete[] array[i];
 	}
+	delete[] array;
 	delete[] arr_1d;
 	return 0;
 
