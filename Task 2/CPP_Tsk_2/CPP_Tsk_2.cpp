@@ -35,6 +35,7 @@ int main(int argc, char* argv[])
 			cout << setw(4) << array[i][j];
 		}
 		cout << endl;
+		delete[] array[i];
 	}
 
 	// переводим его в одномерный
@@ -49,7 +50,8 @@ int main(int argc, char* argv[])
 			cout << arr_1d[k] << " ";
 			k++;
 		}
-		//delete[] array[i];
 	}
+	delete[] arr_1d;
 	return 0;
+
 }
